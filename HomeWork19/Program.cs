@@ -73,8 +73,7 @@ namespace HomeWork19
                         Console.WriteLine("Вы ввели недопустимый код операции");
                         break;
                 }
-            }            
-            Console.ReadKey();
+            }           
         }
         public static void SearchByCPU(List<PC> listPCs)        //вывод списка ПК по указанной модели процессора
         {
@@ -100,8 +99,7 @@ namespace HomeWork19
         }
         public static void SearchByRAM(List<PC> listPCs)        //вывод списка ПК с объемом оперативной памяти не меньше указанной
         {
-            Console.WriteLine("Введите требуемый минимальный объем памяти в Гб:");
-            int str = Convert.ToInt32(Console.ReadLine());
+            int str = ReadValue("Введите требуемый минимальный объем памяти в Гб:");            
             List<PC> PCs = listPCs
                 .Where(PC => PC.RAM >= str)
                 .ToList();
@@ -153,7 +151,7 @@ namespace HomeWork19
                 }
             }
         }
-        public static void SearchMaxCost(List<PC> listPCs) 
+        public static void SearchMaxCost(List<PC> listPCs)       //поиск системного блока с максимальной стоимостью
         {
             int maxCost = listPCs
                 .Max(PC => PC.Cost);
@@ -165,8 +163,8 @@ namespace HomeWork19
             {
                 Console.WriteLine($"\nАртикул: {item.Article}\nПроизводитель: {item.Brand}\nМодель ЦП: {item.CPU}\nЧастота ЦП: {item.CPU_frequency} Ггц\nОбъем ОЗУ: {item.RAM} Гб\nОбъем: {item.HDD} Гб\nОбъем ОЗУ ГП: {item.GPU_RAM} Гб\nЦена: {item.Cost} руб\nОстаток: {item.Quantity} шт.");
             }
-        }       //поиск системного блока с максимальной стоимостью
-        public static void SearchMinCost(List<PC> listPCs)
+        }
+        public static void SearchMinCost(List<PC> listPCs)       //поиск системного блока с минимальной стоимостью
         {
             int minCost = listPCs
                 .Min(PC => PC.Cost);
@@ -178,11 +176,10 @@ namespace HomeWork19
             {
                 Console.WriteLine($"\nАртикул: {item.Article}\nПроизводитель: {item.Brand}\nМодель ЦП: {item.CPU}\nЧастота ЦП: {item.CPU_frequency} Ггц\nОбъем ОЗУ: {item.RAM} Гб\nОбъем: {item.HDD} Гб\nОбъем ОЗУ ГП: {item.GPU_RAM} Гб\nЦена: {item.Cost} руб\nОстаток: {item.Quantity} шт.");
             }
-        }       //поиск системного блока с минимальной стоимостью
+        }
         public static void ReqQuantity(List<PC> listPCs)        //поиск модели доступной на складе в необходимом количестве
-        {
-            Console.WriteLine("Введите необходимое количество системных блоков:");
-            int str = Convert.ToInt32(Console.ReadLine());
+        {            
+            int str = ReadValue("Введите необходимое количество системных блоков:");
             bool exist = listPCs
                 .Any(PC => PC.Quantity >= str);
             if (exist)
@@ -197,6 +194,22 @@ namespace HomeWork19
                 }
             }          
             
+        }
+        static int ReadValue(string text)   //метод проверяющий корректность ввода данных
+        {
+            int value;
+            while (true)
+            {
+                Console.WriteLine(text);
+                if (Int32.TryParse(Console.ReadLine(), out value))
+                {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine("Ввод некорректен");
+                }
+            }
         }
     }   
 }
